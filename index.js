@@ -60,28 +60,16 @@ const startApp = () => {
     displayDepartments = async () => {
         const departments = await db.viewAllDepartments();
         console.table(departments);
-        //const sql = `SELECT department.id, department_name from department`;
-        // db.query(sql, (err, res) => {
-        //     if(err) throw err;
-        //     console.log('\n Displaying all department   \n')
-        //     console.table(res);
-             mainQuestions();
-        // });
+        mainQuestions();
+     
     }
 
     displayRoles = async () => {
         const roles = await db.viewAllRoles();
         console.table(roles);
-    //     const sql = `SELECT employee_role.id, title, department.department_name, salary FROM employee_role INNER JOIN department ON employee_role.department_id = department.id;`;
-    //     db.query(sql, (err, res) => {
-    //         if(err) throw err;
-    //         console.log('\n Displaying all roles   \n')
-    //         console.table(res);
         mainQuestions();
-    //     });
+ 
      }
-
-
 
     displayEmployees = async() => {
         const employees = await db.viewAllEmployees();
@@ -105,42 +93,12 @@ const startApp = () => {
                         return false;
                     }
                 }
-            }
-            
+            }         
 
         ])
-
         await db.addNewDepartment(department);
-        mainQuestions();
-
-        // return inquirer.prompt ([
-
-
-        //     {
-
-
-        //         type: 'input',
-        //         name: 'department_name',
-        //         message: 'What is the name of the new Department?',
-        //         validate: answerInput => {
-        //             if (answerInput) {
-        //                 return true;
-        //             } else {
-        //                 console.log('Please enter the new Department name!');
-        //                 return false;
-        //             }
-        //         }
-        //     }
-        // ])
-        //     .then(answers => {
-        //         console.log(answers);
-                
-        //         await db.addNewDepartment(answers);
-        //         mainQuestions();
-        //     })
-
+        displayDepartments();
     };
-
 
     async function addRole() {
             const departments = await db.viewAllDepartments();
@@ -167,12 +125,9 @@ const startApp = () => {
                 }
             ]);
             await db.addNewRole(role);
-            console.log(`Added ${role.title} to the database`);
-            mainQuestions();
+            displayRoles();
     }
     
-    
-
     async function addEmployee() {
         const roles = await db.viewAllRoles();
         const managers = await db.viewAllManagers(); 
@@ -180,7 +135,6 @@ const startApp = () => {
             name: Manager,
             value: id
         }));
-        console.log(managerChoices);
         const roleChoices = roles.map(({ id, title }) => ({         
                 name: title,
                 value: id             
@@ -226,19 +180,10 @@ const startApp = () => {
                 choices: managerChoices
             }
         
-        ])
-    const params = [
-            employee.first_name,
-            employee.last_name,
-            employee.role_id,
-            employee.manager_id,
-        ];
-    console.log(params);    
+        ])   
     await db.addNewEmployee(employee);
-    
-    mainQuestions();
+    displayEmployees();
     }
-
 
     async function updateRole() {
         const employees = await db.viewAllEmployee();
@@ -271,16 +216,11 @@ const startApp = () => {
         
         ])
 
-    console.log(employee_update);    
-    console.log(`Added ${employee_update.id} and ${employee_update.employee_role_id}  to the database`);
     await db.updateNewRole(employee_update);
-    
-    
-    mainQuestions();
+    displayEmployees();
     }
     mainQuestions();
 };
-
 
 // Initiate main menu
 console.log("WELCOME TO EMPLOYEE TRACKER!");

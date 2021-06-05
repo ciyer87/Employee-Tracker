@@ -45,7 +45,7 @@ class DB {
                 employee.first_name AS "First Name", 
                 employee.last_name AS "Last Name", 
                 employee_role.title AS "Job Title", 
-                department.department_name AS department, 
+                department.department_name AS Department, 
                 employee_role.salary AS Salary,
                 CONCAT(manager.first_name, ' ', manager.last_name) AS Manager
             FROM 
