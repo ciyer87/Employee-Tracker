@@ -174,20 +174,12 @@ const startApp = () => {
     
 
     async function addEmployee() {
-        const departments = await db.viewAllDepartments();
         const roles = await db.viewAllRoles();
-        const managers = await db.viewAllManagers();
-        const departmentChoices = departments.map(({ id, department_name }) => ({
-            name: department_name,
-            value: id
-        }));
-        
+        const managers = await db.viewAllManagers(); 
         const managerChoices = managers.map(({ id, Manager }) => ({
             name: Manager,
             value: id
         }));
-        
-
         const roleChoices = roles.map(({ id, title }) => ({         
                 name: title,
                 value: id             
@@ -240,6 +232,42 @@ const startApp = () => {
     mainQuestions();
     }
 
+
+    async function updateRole() {
+        const employees = await db.viewAllEmployee();
+        const roles = await db.viewAllRoles();
+        const roleChoices = roles.map(({ id, title}) => ({         
+            name: title,
+            value: id             
+        }));
+        
+        const employeeChoices = employees.map(({ id, employee_name }) => ({         
+                name: employee_name,
+                value: id             
+        }));
+        const employee_update = await inquirer.prompt([
+
+            {
+                type: 'list',
+                name: 'id',
+                message: 'Select an Employee to modify Role?',
+                choices: employeeChoices,
+            },
+            {
+                type: 'list',
+                name: 'employee_role_id',
+                message: 'What is the new Role assigned to the Employee?',
+                choices: roleChoices,
+            },
+        
+        ]).then(answer => {
+            console.log(answer);
+        })
+    
+    await db.updateNewRole(employee_update);
+    
+    mainQuestions();
+    }
     mainQuestions();
 };
 

@@ -75,6 +75,18 @@ class DB {
         )
     }
 
+    viewAllEmployee() {
+        return this.connection.query (
+            `
+            SELECT 
+                employee.id AS value, 
+                CONCAT(employee.first_name, ' ', employee.last_name) AS employee_name
+            FROM 
+                employee;
+            `
+        )
+    }
+
     addNewDepartment(department) {
         return this.connection.query (
             `
@@ -101,11 +113,22 @@ class DB {
     addNewEmployee(employee) {
         return this.connection.query (
             `
-            INSERT INTO
-                employee 
+            INSERT INTO 
+                employee
             SET
-                ?
+                ? 
             `, employee
+        )
+    }
+
+    updateNewRole(newrole) {
+        return this.connection.query (
+            `
+            UPDATE  
+                employee
+            SET
+                ?    
+            `, newrole
         )
     }
 
