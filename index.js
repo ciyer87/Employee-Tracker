@@ -83,7 +83,10 @@ const startApp = () => {
 
 
 
-    displayEmployees = () => {
+    displayEmployees = async() => {
+        const employees = await db.viewAllEmployees();
+        console.table(employees);
+        mainQuestions();
 
     }
 
@@ -166,10 +169,80 @@ const startApp = () => {
             await db.addNewRole(role);
             console.log(`Added ${role.title} to the database`);
             mainQuestions();
-        }
+    }
+    
+    
+
+    async function addEmployee() {
+        const departments = await db.viewAllDepartments();
+        const roles = await db.viewAllRoles();
+        const managers = await db.viewAllManagers();
+        const departmentChoices = departments.map(({ id, department_name }) => ({
+            name: department_name,
+            value: id
+        }));
+        
+        const managerChoices = managers.map(({ id, Manager }) => ({
+            name: Manager,
+            value: id
+        }));
+        
+
+        const roleChoices = roles.map(({ id, title }) => ({         
+                name: title,
+                value: id             
+        }));
+        const employee = await inquirer.prompt([
+
+            {
+                type: 'input',
+                name: 'first_name',
+                message: 'What is the first name of the new Employee?',
+                validate: answerInput => {
+                    if (answerInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter the new Employee\'s first name!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'last_name',
+                message: 'What is the last name of the new Employee?',
+                validate: answerInput => {
+                    if (answerInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter the new Employee\'s last name!');
+                        return false;
+                    }
+                }
+            },  
+            {
+                type: 'list',
+                name: 'role_id',
+                message: 'What is the role assigned to the new Employee?',
+                choices: roleChoices
+            },
+            {
+                type: 'list',
+                name: 'manager_id',
+                message: 'Who is the manager assigned to the new Employee?',
+                choices: managerChoices
+            }
+        
+        ])
+    
+    await db.addNewEmployee(employee);
     
     mainQuestions();
+    }
+
+    mainQuestions();
 };
+
 
 // Initiate main menu
 console.log("WELCOME TO EMPLOYEE TRACKER!");
