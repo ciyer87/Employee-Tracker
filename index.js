@@ -180,6 +180,7 @@ const startApp = () => {
             name: Manager,
             value: id
         }));
+        console.log(managerChoices);
         const roleChoices = roles.map(({ id, title }) => ({         
                 name: title,
                 value: id             
@@ -226,7 +227,13 @@ const startApp = () => {
             }
         
         ])
-    
+    const params = [
+            employee.first_name,
+            employee.last_name,
+            employee.role_id,
+            employee.manager_id,
+        ];
+    console.log(params);    
     await db.addNewEmployee(employee);
     
     mainQuestions();
@@ -263,7 +270,7 @@ const startApp = () => {
             },
         
         ])
-        
+
     console.log(employee_update);    
     console.log(`Added ${employee_update.id} and ${employee_update.employee_role_id}  to the database`);
     await db.updateNewRole(employee_update);

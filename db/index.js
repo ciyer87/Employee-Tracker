@@ -67,7 +67,7 @@ class DB {
         return this.connection.query (
             `
             SELECT 
-                employee.id AS value, 
+                employee.id AS id, 
                 CONCAT(employee.first_name, ' ', employee.last_name) AS Manager
             FROM 
                 employee;
