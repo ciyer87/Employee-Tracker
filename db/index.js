@@ -79,7 +79,7 @@ class DB {
         return this.connection.query (
             `
             SELECT 
-                employee.id AS value, 
+                employee.id AS id, 
                 CONCAT(employee.first_name, ' ', employee.last_name) AS employee_name
             FROM 
                 employee;
@@ -127,8 +127,10 @@ class DB {
             UPDATE  
                 employee
             SET
-                ?    
-            `, newrole
+                role_id = ${newrole.employee_role_id} 
+            WHERE 
+                id = ${newrole.id};
+            `
         )
     }
 
