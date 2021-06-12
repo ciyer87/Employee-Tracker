@@ -192,13 +192,12 @@ const startApp = () => {
             name: title,
             value: id             
         }));
-        console.log(roleChoices);
         
         const employeeChoices = employees.map(({ id, employee_name }) => ({         
                 name: employee_name,
                 value: id             
         }));
-        console.log(employeeChoices);
+    
         const employee_update = await inquirer.prompt([
 
             {
