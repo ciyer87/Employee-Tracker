@@ -12,9 +12,7 @@ class DB {
                 department.id, 
                 department_name 
             FROM 
-                department;
-                `
-            
+                department;                `    
         )
     }
 
@@ -31,8 +29,7 @@ class DB {
             LEFT JOIN 
                 department ON employee_role.department_id = department.id
             ORDER BY
-                employee_role.id;
-            `
+                employee_role.id;           `
         )
     }
 
@@ -55,12 +52,8 @@ class DB {
             LEFT JOIN 
                 department ON employee_role.department_id = department.id
             LEFT JOIN 
-                employee manager ON manager.id = employee.manager_id;
-            
-            `
-        )
-
-        
+                employee manager ON manager.id = employee.manager_id;                      `
+        )    
     }
 
     viewAllManagers() {
@@ -70,8 +63,7 @@ class DB {
                 employee.id AS id, 
                 CONCAT(employee.first_name, ' ', employee.last_name) AS Manager
             FROM 
-                employee;
-            `
+                employee;            `
         )
     }
 
@@ -82,8 +74,7 @@ class DB {
                 employee.id AS id, 
                 CONCAT(employee.first_name, ' ', employee.last_name) AS employee_name
             FROM 
-                employee;
-            `
+                employee;        `
         )
     }
 
@@ -97,7 +88,6 @@ class DB {
             `, department
         )
     }
-
 
     addNewRole(role) {
         return this.connection.query (
@@ -129,11 +119,9 @@ class DB {
             SET
                 role_id = ${newrole.employee_role_id} 
             WHERE 
-                id = ${newrole.id};
-            `
+                id = ${newrole.id};            `
         )
     }
-
 }
 
 module.exports = new DB(connection)
